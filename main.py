@@ -44,11 +44,11 @@ parser.add_argument('--momentum', type=float, default=0.9, help='Momentum for SG
 parser.add_argument('--nocuda', action='store_true', help='Dont use cuda')
 parser.add_argument('--threads', type=int, default=8, help='Number of threads for each data loader to use')
 parser.add_argument('--seed', type=int, default=123, help='Random seed to use.')
-parser.add_argument('--dataPath', type=str, default='/nfs/ibrahimi/data/', help='Path for centroid data.')
-parser.add_argument('--runsPath', type=str, default='/nfs/ibrahimi/runs/', help='Path to save runs to.')
+parser.add_argument('--dataPath', type=str, default='../../Data/pose_graph/color_img', help='Path for centroid data.')
+parser.add_argument('--runsPath', type=str, default='./', help='Path to save runs to.')
 parser.add_argument('--savePath', type=str, default='checkpoints', 
         help='Path to save checkpoints to in logdir. Default=checkpoints/')
-parser.add_argument('--cachePath', type=str, default=environ['TMPDIR'], help='Path to save cache to.')
+parser.add_argument('--cachePath', type=str, default='./', help='Path to save cache to.')
 parser.add_argument('--resume', type=str, default='', help='Path to load checkpoint from, for resuming training or testing.')
 parser.add_argument('--ckpt', type=str, default='latest', 
         help='Resume from latest or best checkpoint.', choices=['latest', 'best'])
@@ -56,7 +56,7 @@ parser.add_argument('--evalEvery', type=int, default=1,
         help='Do a validation set run, and save, every N epochs.')
 parser.add_argument('--patience', type=int, default=10, help='Patience for early stopping. 0 is off.')
 parser.add_argument('--dataset', type=str, default='pittsburgh', 
-        help='Dataset to use', choices=['pittsburgh'])
+        help='Dataset to use', choices=['pittsburgh', 's3e'])
 parser.add_argument('--arch', type=str, default='vgg16', 
         help='basenetwork to use', choices=['vgg16', 'alexnet'])
 parser.add_argument('--vladv2', action='store_true', help='Use VLAD v2')
@@ -325,6 +325,8 @@ if __name__ == "__main__":
 
     if opt.dataset.lower() == 'pittsburgh':
         import pittsburgh as dataset
+    elif opt.dataset.lower() == 's3e':
+        import s3e as dataset
     else:
         raise Exception('Unknown dataset')
 
